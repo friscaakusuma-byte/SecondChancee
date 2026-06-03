@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SecondChance | Financial Reintegration System</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#120b03;
+    color:#fff3e0;
+}
+
+/* SIDEBAR */
+.sidebar{
+    position:fixed;
+    width:260px;
+    height:100vh;
+    background:linear-gradient(180deg,#ff9800,#ffcc00);
+    padding:20px;
+    color:black;
+}
+
+.sidebar h2{margin:0;}
+
+.menu button{
+    width:100%;
+    margin:6px 0;
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    background:#fff8e1;
+    font-weight:bold;
+    transition:0.2s;
+}
+
+.menu button:hover{
+    background:#ffb300;
+    transform:scale(1.03);
+}
+
+/* MAIN */
+.main{
+    margin-left:280px;
+    padding:20px;
+}
+
+.card{
+    background:linear-gradient(145deg,#2a1605,#1a0f03);
+    padding:18px;
+    border-radius:14px;
+    margin-bottom:15px;
+    border:1px solid #ffb300;
+    box-shadow:0 0 10px rgba(255,179,0,0.2);
+    transition:0.2s;
+}
+
+.card:hover{
+    transform:scale(1.01);
+    box-shadow:0 0 20px rgba(255,179,0,0.4);
+}
+
+h2,h3{color:#ffcc66;}
+
+.score{
+    font-size:48px;
+    color:#ffb300;
+}
+
+button.action{
+    padding:10px 14px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+    background:linear-gradient(90deg,#ff9800,#ffcc00);
+    transition:0.2s;
+}
+
+button.action:hover{transform:scale(1.05);}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:6px 0;
+    border-radius:8px;
+    border:none;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.badge{
+    display:inline-block;
+    padding:3px 8px;
+    background:#ffb300;
+    color:black;
+    border-radius:6px;
+    font-size:12px;
+}
+
+.modal{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background:#1a0f03;
+    border:2px solid #ffb300;
+    padding:20px;
+    border-radius:12px;
+    display:none;
+    width:320px;
+}
+.modal button{
+    margin-top:10px;
+    width:100%;
+    padding:8px;
+    border:none;
+    background:#ffcc00;
+    font-weight:bold;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>SecondChance</h2>
+    <p>Sistem Kredit Reintegrasi</p>
+
+    <div class="menu">
+        <button onclick="nav('dashboard')">Dashboard</button>
+        <button onclick="nav('profil')">Profil</button>
+        <button onclick="nav('skor')">Skor</button>
+        <button onclick="nav('pinjaman')">Pinjaman</button>
+        <button onclick="nav('pendamping')">Pendamping</button>
+        <button onclick="nav('peluang')">Opportunity</button>
+    </div>
+</div>
+
+<div class="main">
+
+<!-- DASHBOARD PREMIUM -->
+<div id="dashboard" class="page">
+    <div class="card" style="text-align:center; padding:30px;">
+
+        <!-- LOGO -->
+        <svg width="70" height="70" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" fill="#ffb300"/>
+            <circle cx="12" cy="12" r="5" fill="#ff9800"/>
+        </svg>
+
+        <h2>SecondChance</h2>
+        <p>Sistem Keuangan Reintegrasi Sosial Berbasis Skor Kepercayaan</p>
+
+        <h3 style="color:#ffcc66;">“Akses Kedua untuk Kesempatan Ekonomi Baru”</h3>
+
+        <button class="action" onclick="alert('Selamat datang di SecondChance')">
+            Mulai Sistem
+        </button>
+    </div>
+
+    <div class="card">
+        <h3>Impact Nasional (Simulasi)</h3>
+        <p>87% peningkatan akses modal</p>
+        <p>62% penurunan pengangguran</p>
+        <p>1.2x peningkatan keberhasilan usaha</p>
+    </div>
+
+    <div class="card">
+        <h3>Status Sistem</h3>
+        <p id="status">Menghubungkan sistem...</p>
+    </div>
+</div>
+
+<!-- PROFIL -->
+<div id="profil" class="page" style="display:none;">
+    <div class="card">
+        <h2>Profil Reintegrasi</h2>
+
+        <input id="nama" placeholder="Nama">
+        <input id="skill" placeholder="Keahlian">
+        <input id="training" placeholder="Sertifikat">
+
+        <button class="action" onclick="save()">Simpan</button>
+    </div>
+
+    <div class="card">
+        <h3>Data</h3>
+        <p id="data"></p>
+    </div>
+</div>
+
+<!-- SKOR -->
+<div id="skor" class="page" style="display:none;">
+    <div class="card">
+        <h2>Reintegration Score</h2>
+        <div class="score" id="score">0</div>
+
+        <button class="action" onclick="calc()">Hitung Skor</button>
+        <p id="detail"></p>
+    </div>
+</div>
+
+<!-- PINJAMAN -->
+<div id="pinjaman" class="page" style="display:none;">
+    <div class="card">
+        <h2>Pinjaman Mikro</h2>
+
+        <button class="action" onclick="loan()">Ajukan Rp5.000.000</button>
+        <p id="loanRes"></p>
+    </div>
+</div>
+
+<!-- PENDAMPING -->
+<div id="pendamping" class="page" style="display:none;">
+    <div class="card">
+        <h2>Pendamping</h2>
+        <ul>
+            <li>Koperasi Digital Nasional</li>
+            <li>UMKM Mentor Network</li>
+            <li>Inkubator Bisnis Kampus</li>
+            <li>Komunitas Wirausaha Muda</li>
+        </ul>
+    </div>
+</div>
+
+<!-- OPPORTUNITY -->
+<div id="peluang" class="page" style="display:none;">
+    <div class="card">
+        <h2>OPPORTUNITY (PELUANG)</h2>
+        <p>Klik untuk melihat peluang sesuai profil Anda</p>
+
+        <button class="action" onclick="loadOpp()">Tampilkan Opportunity</button>
+
+        <div class="grid" id="list"></div>
+    </div>
+</div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+    <h3 id="mTitle"></h3>
+    <p id="mDesc"></p>
+    <button onclick="closeModal()">Tutup</button>
+</div>
+
+<script>
+
+// NAV
+function nav(p){
+    document.querySelectorAll('.page').forEach(x=>x.style.display='none');
+    document.getElementById(p).style.display='block';
+}
+
+// STATUS SIMULASI API
+async function init(){
+    document.getElementById("status").innerText =
+    "Sistem aktif ✔ AI Scoring Ready";
+}
+init();
+
+// SAVE
+function save(){
+    let d={
+        n:nama.value,
+        s:skill.value,
+        t:training.value
+    };
+    localStorage.setItem("sc",JSON.stringify(d));
+    show();
+}
+
+function show(){
+    let d=JSON.parse(localStorage.getItem("sc"));
+    if(d){
+        data.innerHTML=`Nama: ${d.n}<br>Skill: ${d.s}<br>Training: ${d.t}`;
+    }
+}
+show();
+
+// SCORE ENGINE
+function calc(){
+    let d=JSON.parse(localStorage.getItem("sc"))||{};
+    let s=35;
+
+    if(d.n)s+=15;
+    if(d.s)s+=25;
+    if(d.t)s+=20;
+
+    s+=Math.floor(Math.random()*10);
+    if(s>100)s=100;
+
+    score.innerText=s;
+    detail.innerText="Skor berbasis human capital + trust + konsistensi";
+}
+
+// LOAN
+function loan(){
+    let s=parseInt(score.innerText);
+    loanRes.innerText = s>=75 ? "✔ DISETUJUI" : "✘ DITOLAK";
+}
+
+// OPPORTUNITY PREMIUM
+let opportunities=[
+{
+title:"UMKM Digital Starter Pack",
+desc:"Pelatihan + modal awal usaha digital untuk pemula."
+},
+{
+title:"Inkubasi Wirausaha Muda",
+desc:"Pendampingan bisnis 3 bulan dengan mentor profesional."
+},
+{
+title:"Kerja Mitra Logistik",
+desc:"Kesempatan kerja berbasis kemitraan harian."
+},
+{
+title:"Koperasi Mikro Produktif",
+desc:"Akses modal kecil berbasis komunitas dengan bunga rendah."
+}
+];
+
+function loadOpp(){
+    list.innerHTML="";
+    opportunities.forEach(o=>{
+        let div=document.createElement("div");
+        div.className="card";
+        div.innerHTML=`
+            <div class="badge">OPPORTUNITY</div>
+            <h3>${o.title}</h3>
+            <p>${o.desc}</p>
+        `;
+        div.onclick=()=>openModal(o);
+        list.appendChild(div);
+    });
+}
+
+// MODAL
+function openModal(o){
+    mTitle.innerText=o.title;
+    mDesc.innerText=o.desc;
+    modal.style.display="block";
+}
+
+function closeModal(){
+    modal.style.display="none";
+}
+
+</script>
+
+</body>
+</html>
